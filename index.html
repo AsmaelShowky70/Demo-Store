@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>نموذج تطبيق متجر إلكتروني أندرويد + لوحة الإدارة</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+
+  <!-- Top Showcase Toolbar for Presentations -->
+  <header class="top-bar">
+    <div class="brand-section">
+      <div class="brand-badge">🛍️</div>
+      <div>
+        <h1 class="brand-title">نموذج العرض التجريبي | متجر إلكتروني أندرويد</h1>
+        <div class="brand-subtitle">
+          <span class="live-indicator"></span>
+          <span>تفاعل حي ومباشر بين تطبيق العميل ولوحة الأدمن</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mode Switcher Buttons -->
+    <div class="view-modes">
+      <button class="mode-btn active" id="btnModeDual" onclick="setViewMode('dual')">
+        <span>⚡</span> العرض المزدوج (شاشتان)
+      </button>
+      <button class="mode-btn" id="btnModeStore" onclick="setViewMode('store')">
+        <span>📱</span> تطبيق العميل فقط
+      </button>
+      <button class="mode-btn" id="btnModeAdmin" onclick="setViewMode('admin')">
+        <span>⚙️</span> لوحة الأدمن فقط
+      </button>
+    </div>
+
+    <!-- Controls (Colors & Quick Action) -->
+    <div class="controls-group">
+      <div class="control-item">
+        <span>لون الهاتف:</span>
+        <div class="device-color-dot dot-black active" title="أسود كربوني" onclick="setDeviceColor('#18181b', this)"></div>
+        <div class="device-color-dot dot-titanium" title="تيتانيوم فضي" onclick="setDeviceColor('#3f3f46', this)"></div>
+        <div class="device-color-dot dot-violet" title="بنفسجي غامق" onclick="setDeviceColor('#2e1065', this)"></div>
+      </div>
+      <button class="action-pill-btn" onclick="openAddProductModal()" title="إضافة منتج من لوحة الأدمن">
+        <span>➕ إضافة منتج جديد</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Stage Container displaying the Realistic Phones -->
+  <main class="stage-container">
+    <div class="phones-wrapper" id="phonesWrapper">
+
+      <!-- ================= 1. CUSTOMER STORE PHONE ================= -->
+      <div class="phone-column" id="storePhoneWrapper">
+        <div class="phone-label">
+          <span class="phone-label-badge label-store">
+            <span>📱</span> واجهة تطبيق العميل (Storefront)
+          </span>
+        </div>
+
+        <div class="phone-device" id="storeDevice">
+          <!-- Screen Area -->
+          <div class="phone-screen">
+
+            <!-- Android Status Bar -->
+            <div class="phone-status-bar">
+              <span class="status-time">10:45 ص</span>
+              <div class="punch-hole-camera">
+                <div class="camera-lens"></div>
+              </div>
+              <div class="status-icons">
+                <span>5G</span>
+                <span>📶</span>
+                <span>🔋 98%</span>
+              </div>
+            </div>
+
+            <!-- In-Phone Android Toast Notification -->
+            <div class="phone-toast" id="storeToast">
+              <div class="toast-icon">🛍️</div>
+              <div class="toast-text">
+                <div class="toast-title">عنوان الإشعار</div>
+                <div class="toast-desc">نص الإشعار التوضيحي</div>
+              </div>
+            </div>
+
+            <!-- Order Confirmation Success Overlay -->
+            <div class="success-screen" id="orderSuccessScreen">
+              <div class="success-circle">✓</div>
+              <h3 style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 6px;">تم إرسال طلبك بنجاح!</h3>
+              <p style="font-size: 12px; color: #64748b; margin-bottom: 16px;">رقم الطلب الخاص بك: <strong id="confirmedOrderNumber" style="color: #4f46e5;">#ORD-9412</strong></p>
+              <div style="background: #f8fafc; border: 1px dashed #cbd5e1; padding: 12px; border-radius: 12px; width: 100%; margin-bottom: 20px;">
+                <div style="font-size: 11px; color: #64748b; margin-bottom: 4px;">إجمالي المبلغ المدفوع:</div>
+                <div id="confirmedOrderTotal" style="font-size: 18px; font-weight: 900; color: #10b981;">0 ر.س</div>
+                <div style="font-size: 10px; color: #64748b; margin-top: 6px;">تم إرسال إشعار فوري إلى تطبيق الإدارة 🔔</div>
+              </div>
+              <button class="checkout-btn" onclick="closeSuccessScreen()" style="width: 100%;">
+                متابعة التسوق 🛒
+              </button>
+            </div>
+
+            <!-- Store App Viewport (Scrollable) -->
+            <div class="app-viewport">
+              
+              <!-- Store Header -->
+              <div class="store-header">
+                <div class="store-top-row">
+                  <div class="user-welcome">
+                    <div class="user-avatar">ع</div>
+                    <div class="welcome-text">
+                      <h4>أهلاً بك، عبد الله 👋</h4>
+                      <p><span>📍</span> الرياض، المملكة</p>
+                    </div>
+                  </div>
+                  <div class="header-actions">
+                    <button class="icon-btn" onclick="openCart()" title="سلة التسوق">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                      <span class="icon-badge" id="cartBadge" style="display: none;">0</span>
+                    </button>
+                    <button class="icon-btn" title="الإشعارات">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Search Input -->
+                <div class="search-box">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                  <input type="text" id="storeSearchInput" placeholder="ابحث عن منتج، علامة تجارية...">
+                </div>
+              </div>
+
+              <!-- Promo Carousel Banner -->
+              <div class="promo-slider">
+                <div class="promo-card">
+                  <span class="promo-tag">عرض خاص وحصري ⚡</span>
+                  <h3>خصومات الصيف الكبرى</h3>
+                  <p>تخفيضات تصل حتى 40% على جميع المنتجات الإلكترونية المتميزة.</p>
+                  <button class="promo-btn" onclick="document.querySelector('[data-cat=\'إلكترونيات\']').click()">تسوق الآن</button>
+                </div>
+              </div>
+
+              <!-- Categories row -->
+              <div class="categories-section">
+                <div class="section-head">
+                  <h3>الأقسام الرئيسية</h3>
+                  <a href="#">عرض الكل</a>
+                </div>
+                <div class="category-chips">
+                  <button class="cat-chip active" data-cat="الكل">🌟 الكل</button>
+                  <button class="cat-chip" data-cat="إلكترونيات">📱 إلكترونيات</button>
+                  <button class="cat-chip" data-cat="ساعات">⌚ ساعات</button>
+                  <button class="cat-chip" data-cat="أزياء">👟 أزياء</button>
+                  <button class="cat-chip" data-cat="عطور">✨ عطور</button>
+                  <button class="cat-chip" data-cat="ألعاب">🎮 ألعاب</button>
+                </div>
+              </div>
+
+              <!-- Products Grid -->
+              <div class="section-head" style="padding: 4px 18px 0;">
+                <h3>أحدث المنتجات</h3>
+                <span style="font-size: 11px; color: #64748b;">توصيل سريع ⚡</span>
+              </div>
+              <div class="products-grid" id="productsGrid">
+                <!-- Dynamically loaded via JavaScript -->
+              </div>
+
+            </div>
+
+            <!-- Bottom Sheet: Shopping Cart Modal -->
+            <div class="cart-sheet" id="cartSheet">
+              <div class="sheet-handle-bar"></div>
+              <div class="sheet-header">
+                <div>
+                  <h3>سلة المشتريات</h3>
+                  <span id="cartCountText" style="font-size: 11px; color: #64748b;">(0 منتجات)</span>
+                </div>
+                <button class="close-sheet-btn" onclick="closeCart()">✕</button>
+              </div>
+
+              <!-- Items list inside cart -->
+              <div class="cart-items-list" id="cartItemsList">
+                <!-- Dynamically injected -->
+              </div>
+
+              <!-- Cart Summary & Checkout -->
+              <div class="cart-summary">
+                <div class="summary-line">
+                  <span>المجموع الفرعي:</span>
+                  <strong id="cartSubtotal">0 ر.س</strong>
+                </div>
+                <div class="summary-line">
+                  <span>رسوم الشحن:</span>
+                  <span id="cartShipping" style="color: #10b981; font-weight: 700;">مجاني 🎉</span>
+                </div>
+                <div class="summary-line summary-total">
+                  <span>المبلغ الإجمالي:</span>
+                  <span id="cartTotal" style="color: #4f46e5;">0 ر.س</span>
+                </div>
+
+                <button class="checkout-btn" id="checkoutBtn" onclick="processCheckout()">
+                  <span>إتمام الطلب الآن (تجربة حية)</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Bottom Navigation Bar (Android Tab Bar) -->
+            <nav class="bottom-app-bar">
+              <button class="app-tab active" title="الرئيسية">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                <span>الرئيسية</span>
+              </button>
+              <button class="app-tab" onclick="document.getElementById('storeSearchInput').focus()" title="البحث">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                <span>بحث</span>
+              </button>
+              <button class="app-tab" onclick="openCart()" title="السلة">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                <span>السلة</span>
+              </button>
+              <button class="app-tab" title="المفضلة">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                <span>المفضلة</span>
+              </button>
+              <button class="app-tab" title="حسابي">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span>حسابي</span>
+              </button>
+            </nav>
+
+            <!-- Android Bottom Gesture Indicator -->
+            <div class="phone-nav-bar">
+              <div class="nav-pill"></div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ================= 2. ADMIN PANEL PHONE ================= -->
+      <div class="phone-column" id="adminPhoneWrapper">
+        <div class="phone-label">
+          <span class="phone-label-badge label-admin">
+            <span>⚙️</span> تطبيق لوحة الإدارة (Admin App)
+          </span>
+        </div>
+
+        <div class="phone-device" id="adminDevice">
+          <!-- Screen Area -->
+          <div class="phone-screen">
+
+            <!-- Android Status Bar -->
+            <div class="phone-status-bar">
+              <span class="status-time">10:45 ص</span>
+              <div class="punch-hole-camera">
+                <div class="camera-lens"></div>
+              </div>
+              <div class="status-icons">
+                <span>5G</span>
+                <span>📶</span>
+                <span>🔋 95%</span>
+              </div>
+            </div>
+
+            <!-- In-Phone Android Toast Notification for Admin -->
+            <div class="phone-toast" id="adminToast">
+              <div class="toast-icon" style="background: #10b981;">🔔</div>
+              <div class="toast-text">
+                <div class="toast-title">إشعار جديد للأدمن</div>
+                <div class="toast-desc">تفاصيل الإشعار</div>
+              </div>
+            </div>
+
+            <!-- Modal: Add New Product -->
+            <div class="modal-overlay" id="addProductModal">
+              <div class="modal-card">
+                <h3>إضافة منتج جديد للمتجر</h3>
+                <form id="newProductForm">
+                  <div class="form-group">
+                    <label>اسم المنتج:</label>
+                    <input type="text" id="newProdTitle" required placeholder="مثال: سماعة بلوتوث رياضية">
+                  </div>
+                  <div class="form-group">
+                    <label>السعر (ر.س):</label>
+                    <input type="number" id="newProdPrice" required placeholder="مثال: 299">
+                  </div>
+                  <div class="form-group">
+                    <label>التصنيف:</label>
+                    <select id="newProdCategory">
+                      <option value="إلكترونيات">إلكترونيات</option>
+                      <option value="ساعات">ساعات</option>
+                      <option value="أزياء">أزياء</option>
+                      <option value="عطور">عطور</option>
+                      <option value="ألعاب">ألعاب</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>رابط الصورة (اختياري):</label>
+                    <input type="url" id="newProdImage" placeholder="اتركه فارغاً للصورة التلقائية">
+                  </div>
+                  <div class="modal-buttons">
+                    <button type="submit" class="submit-btn">نشر في المتجر فوراً 🚀</button>
+                    <button type="button" class="cancel-btn" onclick="closeAddProductModal()">إلغاء</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <!-- Admin App Viewport -->
+            <div class="app-viewport">
+              
+              <!-- Admin Header & KPIs -->
+              <div class="admin-header">
+                <div class="admin-top-bar">
+                  <div class="admin-store-name">
+                    <div class="admin-avatar">🏢</div>
+                    <div>
+                      <h4>متجر النخبة الإلكتروني</h4>
+                      <span><span class="live-indicator"></span> متصل وجاهز للطلبات</span>
+                    </div>
+                  </div>
+                  <button class="add-product-btn" onclick="openAddProductModal()">
+                    <span>+ إضافة</span>
+                  </button>
+                </div>
+
+                <!-- KPI Cards Dashboard -->
+                <div class="admin-kpis">
+                  <div class="kpi-card">
+                    <div class="kpi-card-header">
+                      <span>إجمالي المبيعات</span>
+                      <span class="kpi-trend">+18% ↗</span>
+                    </div>
+                    <div class="kpi-val" id="kpiSales">8,678 ر.س</div>
+                  </div>
+                  <div class="kpi-card">
+                    <div class="kpi-card-header">
+                      <span>الطلبات الواردة</span>
+                      <span class="kpi-trend" style="color: #60a5fa;">مباشر ⚡</span>
+                    </div>
+                    <div class="kpi-val" id="kpiOrdersCount">2</div>
+                  </div>
+                  <div class="kpi-card">
+                    <div class="kpi-card-header">
+                      <span>المنتجات النشطة</span>
+                      <span style="color: #cbd5e1;">في المعرض</span>
+                    </div>
+                    <div class="kpi-val" id="kpiProdsCount">6</div>
+                  </div>
+                  <div class="kpi-card">
+                    <div class="kpi-card-header">
+                      <span>تقييم المتجر</span>
+                      <span style="color: #f59e0b;">★ 4.9</span>
+                    </div>
+                    <div class="kpi-val">ممتاز</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Admin Tabs Navigation -->
+              <div class="admin-tab-nav">
+                <button class="adm-tab-btn active" id="tabBtnOrders" onclick="switchAdminTab('orders')">
+                  📦 الطلبات الواردة
+                </button>
+                <button class="adm-tab-btn" id="tabBtnProducts" onclick="switchAdminTab('products')">
+                  🏷️ إدارة المنتجات
+                </button>
+              </div>
+
+              <!-- Content Area: Orders Tab -->
+              <div class="admin-content-area" id="adminOrdersSection">
+                <div style="font-size: 11px; color: #64748b; font-weight: 700;">
+                  ⚡ الطلبات التي يجريها العميل من السلة تظهر هنا فوراً:
+                </div>
+                <div class="admin-orders-list" id="adminOrdersList">
+                  <!-- Orders injected dynamically -->
+                </div>
+              </div>
+
+              <!-- Content Area: Products Tab -->
+              <div class="admin-content-area" id="adminProductsSection" style="display: none;">
+                <div class="admin-action-bar">
+                  <h3>المنتجات المعروضة حالياً</h3>
+                  <button class="add-product-btn" onclick="openAddProductModal()">+ منتج جديد</button>
+                </div>
+                <div class="admin-orders-list" id="adminProductsList">
+                  <!-- Products injected dynamically -->
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Android Bottom Gesture Indicator -->
+            <div class="phone-nav-bar">
+              <div class="nav-pill"></div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Presentation Guide & Client Demonstration Notes -->
+  <footer class="demo-footer-info">
+    <div>
+      💡 <strong>كيف تبهر عميلك بهذا النموذج:</strong> 
+      1. أضف أي منتج إلى السلة من هاتف العميل ⬅️
+      2. افتح السلة واضغط <strong>"إتمام الطلب الآن"</strong> ⬅️
+      3. شاهد ظهور إشعار صوتي وفوري في هاتف لوحة الأدمن مع زيادة المبيعات في اللحظة نفسها! 🚀
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
